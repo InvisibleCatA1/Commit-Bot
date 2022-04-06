@@ -46,14 +46,16 @@ func main() {
 			} else if cmd == "regular commit" {
 				times := input(userIn + "Number of times to commit: ")
 				delay := input(userIn + "delay between commits (minutes): ")
-				for i := 0; i < strToInt(times); i++ {
+				timesAsInt := strToInt(times)
+				i := 0
+				// test
+				for i < timesAsInt {
+					i += 1
 					time.Sleep(time.Duration(strToInt(delay)) * time.Minute)
-					commit("Repeat commit by - https://github.com/InvisibleCatA1/Commit-Bot")
+					commit("Repeat commit by - https://github.com/InvisibleCatA1/Commit-Bot - commit number #" + string(rune(i)))
 					fmt.Println(info + " Waiting " + delay + " minutes unitl next commit")
 					push()
-
 				}
-
 			} else {
 				fmt.Println(error + "Unkown command: " + cmd + "; type help for list of commands")
 			}
@@ -63,7 +65,7 @@ func main() {
 func strToInt(val string) int {
 	intVal, err := strconv.Atoi(val)
 	if err == nil {
-		fmt.Println(err)
+		fmt.Print()
 	}
 	return intVal
 }
