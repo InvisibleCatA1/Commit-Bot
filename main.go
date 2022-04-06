@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"log"
@@ -11,8 +12,8 @@ import (
 func main() {
 	var dir string
 
-	fmt.Print("Enter the directory that the commit bot will use: ")
-	fmt.Scanln(&dir)
+	dir = input("Enter the directory that the commit bot will use: ")
+
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		fmt.Print("That dir does not exist")
 		os.Exit(0)
@@ -24,14 +25,12 @@ func main() {
 		var run bool = true
 		var commitMsg string
 		for run {
-			fmt.Print("Enter command: ")
-			fmt.Scanln(&cmd)
+			cmd = input("Enter command: ")
 			if cmd == "quit" {
 				fmt.Println("Exiting")
 				run = false
 			} else if cmd == "commit" {
-				fmt.Print("Print the message for commit (can not be nothing): ")
-				fmt.Scanln(&commitMsg)
+				commitMsg = input("Print the message for commit (can not be nothing): ")
 				cmd := exec.Command("git", "commit", "-a", "-m", "\""+commitMsg+"\"")
 				var outb, errb bytes.Buffer
 				cmd.Stdout = &outb
@@ -57,4 +56,12 @@ func push() {
 		log.Fatal(err)
 	}
 	fmt.Println("Push output: ", outb.String())
+}
+func input(prompt string) string {
+	fmt.Print(prompt)
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	line := scanner.Text()
+
+	return line
 }
