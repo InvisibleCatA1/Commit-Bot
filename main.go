@@ -47,10 +47,10 @@ func main() {
 				times := input(userIn + "Number of times to commit: ")
 				delay := input(userIn + "delay between commits (minutes): ")
 				for i := 0; i < strToInt(times); i++ {
-					commit("Repeat commit")
+					time.Sleep(time.Duration(strToInt(delay)) * time.Minute)
+					commit("Repeat commit by - https://github.com/InvisibleCatA1/Commit-Bot")
 					fmt.Println(info + " Waiting " + delay + " minutes unitl next commit")
 					push()
-					time.Sleep(time.Duration(strToInt(delay)) * time.Minute)
 
 				}
 
