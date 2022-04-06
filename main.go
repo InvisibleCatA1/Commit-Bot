@@ -7,31 +7,37 @@ import (
 	"log"
 	"os"
 	"os/exec"
+
+	"github.com/TwiN/go-color"
 )
+
+var userIn = "[" + color.Blue + "Q" + color.Reset + "] "
+var error = "[" + color.Red + "E" + color.Reset + "] "
+var info = "[" + color.Green + "I" + color.Reset + "] "
 
 func main() {
 	var dir string
 
-	dir = input("Enter the directory that the commit bot will use: ")
+	dir = input(userIn + "Enter the directory that the commit bot will use: ")
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		fmt.Print("That dir does not exist")
+		fmt.Print(error + "That dir does not exist")
 		os.Exit(0)
 	}
 
 	if _, err := os.Stat(dir); !os.IsNotExist(err) {
-		fmt.Println("Directory: " + dir)
+		fmt.Println(info + "Directory: " + dir)
 		var cmd string
 		var run bool = true
 		var commitMsg string
 		for run {
-			cmd = input("Enter command: ")
+			cmd = input(userIn + "Enter command: ")
 			if cmd == "quit" {
-				fmt.Println("Exiting")
+				fmt.Println(info + "Exiting")
 				run = false
 			} else if cmd == "commit" {
-				commitMsg = input("Print the message for commit (can not be nothing): ")
-				cmd := exec.Command("git", "commit", "-a", "-m", "\""+commitMsg+"\"")
+				commitMsg = input(userIn + "Print the message for commit (can not be nothing): ")
+				cmd := exec.Command("git", "commit", "-a", "-m", commitMsg)
 				var outb, errb bytes.Buffer
 				cmd.Stdout = &outb
 				cmd.Stderr = &errb
@@ -39,7 +45,7 @@ func main() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				fmt.Println("out:", outb.String())
+				fmt.Println(outb.String())
 				push()
 
 			}
@@ -55,7 +61,7 @@ func push() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Push output: ", outb.String())
+	fmt.Println(info + "Pushed")
 }
 func input(prompt string) string {
 	fmt.Print(prompt)
