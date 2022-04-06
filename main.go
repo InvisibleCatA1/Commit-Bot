@@ -40,9 +40,21 @@ func main() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				fmt.Println("out:", outb.String(), "err:", errb.String())
+				fmt.Println("out:", outb.String())
+				push()
 
 			}
 		}
 	}
+}
+func push() {
+	cmd := exec.Command("git", "push")
+	var outb, errb bytes.Buffer
+	cmd.Stdout = &outb
+	cmd.Stderr = &errb
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Push output: ", outb.String())
 }
