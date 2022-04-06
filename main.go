@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 )
 
 func main() {
@@ -29,6 +32,16 @@ func main() {
 			} else if cmd == "commit" {
 				fmt.Print("Print the message for commit (can not be nothing): ")
 				fmt.Scanln(&commitMsg)
+				cmd := exec.Command("git", "commit", "-a", "-m", "\""+commitMsg+"\"")
+				var outb, errb bytes.Buffer
+				cmd.Stdout = &outb
+				cmd.Stderr = &errb
+				err := cmd.Run()
+				if err != nil {
+					log.Fatal(err)
+				}
+				fmt.Println("out:", outb.String(), "err:", errb.String())
+
 			}
 		}
 	}
