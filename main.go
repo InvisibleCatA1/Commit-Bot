@@ -16,6 +16,20 @@ func main() {
 	}
 
 	if _, err := os.Stat(dir); !os.IsNotExist(err) {
-		fmt.Print("Directory: " + dir)
+		fmt.Println("Directory: " + dir)
+		var cmd string
+		var run bool = true
+		var commitMsg string
+		for run {
+			fmt.Print("Enter command: ")
+			fmt.Scanln(&cmd)
+			if cmd == "quit" {
+				fmt.Println("Exiting")
+				run = false
+			} else if cmd == "commit" {
+				fmt.Print("Print the message for commit (can not be nothing): ")
+				fmt.Scanln(&commitMsg)
+			}
+		}
 	}
 }
