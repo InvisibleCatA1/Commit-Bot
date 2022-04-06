@@ -49,6 +49,7 @@ func main() {
 				for i := 0; i < strToInt(times); i++ {
 					commit("Repeat commit")
 					fmt.Println(info + " Waiting " + delay + " minutes unitl next commit")
+					push()
 					time.Sleep(time.Duration(strToInt(delay)) * time.Minute)
 
 				}
